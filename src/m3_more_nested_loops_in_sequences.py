@@ -6,6 +6,7 @@ Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
          their colleagues and Lilin Chen.
 """  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
+import math
 
 def main():
     """ Calls the other functions to test them. """
@@ -120,8 +121,8 @@ def run_test_largest_negative_number():
     print('Expected and actual are:', expected, answer)
 
     # Test 2:
-    expected = -400
-    answer = largest_negative_number([(200, 2, 20), (500, -400)])
+    expected = None
+    answer = largest_negative_number([(200, 2, 20), (500, 400)])
     print('Expected and actual are:', expected, answer)
 
     # Test 3:
@@ -158,7 +159,7 @@ def largest_negative_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # ------------------------------------------------------------------
-    # TODO: 5. Implement and test this function.
+    # DONE: 5. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # CHALLENGE: Try to solve this problem with no additional sequences
@@ -166,19 +167,20 @@ def largest_negative_number(seq_seq):
     #   give sequence of sequences plus any non-list variables you want).
     # ------------------------------------------------------------------
 
-    max_k = 0
-    max_j = 0
+    neg = 0
+    max_neg = - math.inf
 
     for k in range(len(seq_seq)):
         for j in range(len(seq_seq[k])):
             if seq_seq[k][j] < 0:
-                max_k = k
-                max_j = j
-                if seq_seq[max_k][max_j] < seq_seq[k][j]:
-                    max_k = k
-                    max_j = j
+                neg = seq_seq[k][j]
+                if neg > max_neg:
+                    max_neg = neg
 
-    return seq_seq[max_k][max_j]
+    if max_neg == - math.inf:
+        return None
+    else:
+        return max_neg
 
 
 def run_test_first_is_elsewhere_too():
@@ -412,7 +414,7 @@ def first_is_elsewhere_too(seq_seq):
     and the given argument is a sequence of sequences.
     """
     # ------------------------------------------------------------------
-    # TODO: 6. Implement and test this function.
+    # DONE: 6. Implement and test this function.
     #          Some tests are already written for you (above).
     #
     # IMPLEMENTATION RESTRICTION:
@@ -428,6 +430,22 @@ def first_is_elsewhere_too(seq_seq):
     #   practice at loops within loops (within loops within ...)
     # ------------------------------------------------------------------
 
+    if len(seq_seq[0]) < 1:
+        return False
+    elif len(seq_seq) == 1:
+        return False
+
+    init = []
+    for k in range(len(seq_seq[0])):
+        init = init + [seq_seq[0][k]]
+
+    for j in range(len(init)):
+        for i in range(1, len(seq_seq)):
+            for o in range(len(seq_seq[i])):
+                if init[j] == seq_seq[i][o]:
+                    return True
+
+    return False
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
