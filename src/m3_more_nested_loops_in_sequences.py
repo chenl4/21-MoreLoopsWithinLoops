@@ -3,8 +3,8 @@ This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of SEQUENCES OF SUB-SEQUENCES.
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Lilin Chen.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
 def run_test_largest_number():
     """ Tests the    largest_number    function. """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement this TEST function.
+    # DONE: 2. Implement this TEST function.
     #   It TESTS the  largest_number  function defined below.
     #   Include at least ** 1 ** ADDITIONAL test beyond those we wrote.
     # ------------------------------------------------------------------
@@ -45,6 +45,10 @@ def run_test_largest_number():
 
     # TO DO 2 (continued): Add your ADDITIONAL test(s) here:
 
+    # Test 4:
+    expected = 43
+    answer = largest_number([[1, 4], [2, 5, 43, 13]])
+    print('Expected and actual are:', expected, answer)
 
 def largest_number(seq_seq):
     """
@@ -72,15 +76,32 @@ def largest_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     # ------------------------------------------------------------------
+
+    numbers = []
+    k_for_max = 0
+
+    for k in range(len(seq_seq)):
+        for j in range(len(seq_seq[k])):
+            if type(seq_seq[k][j]) == float or int:
+                numbers = numbers + [seq_seq[k][j]]
+    if len(numbers) == 1:
+        return numbers[0]
+    elif len(numbers) < 1:
+        return None
+    else:
+        for i in range(1, len(numbers)):
+            if numbers[i] > numbers[k_for_max]:
+                k_for_max = i
+        return numbers[k_for_max]
 
 
 def run_test_largest_negative_number():
     """ Tests the    largest_negative_number    function. """
     # ------------------------------------------------------------------
-    # TODO: 4. Implement this TEST function.
+    # DONE: 4. Implement this TEST function.
     #   It TESTS the  largest_negative_number  function defined below.
     #
     #   Include enough tests to give you confidence that your solution
@@ -90,6 +111,28 @@ def run_test_largest_negative_number():
     print('-------------------------------------------------')
     print('Testing the   LARGEST_NEGATIVE_NUMBER   function:')
     print('-------------------------------------------------')
+
+    # Test 1:
+    expected = -2.6
+    answer = largest_negative_number([(30, -5, 8, -20),
+                                      (100, -2.6, 88, -40, -5),
+                                      (400, 500)])
+    print('Expected and actual are:', expected, answer)
+
+    # Test 2:
+    expected = -400
+    answer = largest_negative_number([(200, 2, 20), (500, -400)])
+    print('Expected and actual are:', expected, answer)
+
+    # Test 3:
+    expected = -2
+    answer = largest_negative_number([[1, 4, -2, 6], [2], [4, 2, -5]])
+    print('Expected and actual are:', expected, answer)
+
+    # Test 4:
+    expected = -24
+    answer = largest_negative_number([[124, 532, -235], (124, -24, 432)])
+    print('Expected and actual are:', expected, answer)
 
 
 def largest_negative_number(seq_seq):
@@ -122,6 +165,20 @@ def largest_negative_number(seq_seq):
     #   being constructed (so the SPACE allowed is limited to the
     #   give sequence of sequences plus any non-list variables you want).
     # ------------------------------------------------------------------
+
+    max_k = 0
+    max_j = 0
+
+    for k in range(len(seq_seq)):
+        for j in range(len(seq_seq[k])):
+            if seq_seq[k][j] < 0:
+                max_k = k
+                max_j = j
+                if seq_seq[max_k][max_j] < seq_seq[k][j]:
+                    max_k = k
+                    max_j = j
+
+    return seq_seq[max_k][max_j]
 
 
 def run_test_first_is_elsewhere_too():
